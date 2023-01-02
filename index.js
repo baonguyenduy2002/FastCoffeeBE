@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded());
 
-app.get("/api/get", (req, res) => {
+app.get("/api/order/get", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.order_";
   db.query(sqlSelect, (error, result) => {
     console.log(result);
