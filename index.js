@@ -37,12 +37,17 @@ app.get("/", (req, res) => {
 app.get("/api/order/get", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.order_";
   db.query(sqlSelect, (error, result) => {
-    console.log(result);
     res.send(result);
   });
 });
 
 //-----------------menu----------------------------
+app.get("/api/item/get", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.item";
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
 
 //------------IP => localhost:...--------------------------
 app.listen(PORT, () => {
