@@ -41,6 +41,20 @@ app.get("/api/order/get", (req, res) => {
   });
 });
 
+app.post("/api/order/get/order_item", (req, res) => {
+  const sqlSelect = `SELECT * FROM railway.order_ WHERE Order_ID = ${req.body}`;
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
+
+app.get("/api/order/get/item", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.order_";
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
+
 //-----------------menu----------------------------
 app.get("/api/item/get", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.item";
