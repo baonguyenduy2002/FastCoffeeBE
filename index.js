@@ -41,8 +41,8 @@ app.get("/api/order/get", (req, res) => {
   });
 });
 
-app.get("/api/order/get/:id", (req, res) => {
-  const sqlSelect = `SELECT * FROM railway.order_include_item WHERE Order_ID = ${req.params.id}`; //SQL Injection, coi Predefined Object để fix đi :))
+app.get("/api/order/get/order_item", (req, res) => {
+  const sqlSelect = `SELECT * FROM railway.order_include_item`; //SQL Injection, coi Predefined Object để fix đi :))
   db.query(sqlSelect, (error, result) => {
     res.send(result);
   });
@@ -63,27 +63,26 @@ app.get("/api/item/get", (req, res) => {
   });
 });
 
-// app.post("/api/item/update", (req, res) => {
-//   const sqlSelect = "SELECT * FROM railway.item";
-//   db.query(sqlSelect, (error, result) => {
-//     res.send(result);
-//   });
-// });
+app.post("/api/item/update", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.item";
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
 
-// app.post("/api/item/delete", (req, res) => {
-//   const sqlSelect = "SELECT * FROM railway.item";
-//   db.query(sqlSelect, (error, result) => {
-//     res.send(result);
-//   });
-// });
+app.post("/api/item/delete", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.item";
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
 
-// app.post("/api/item/delete", (req, res) => {
-//   const sqlSelect = "SELECT * FROM railway.item";
-//   db.query(sqlSelect, (error, result) => {
-//     res.send(result);
-//   });
-// });
-
+app.post("/api/item/delete", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.item";
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
 
 //------------IP => localhost:...--------------------------
 app.listen(PORT, () => {
