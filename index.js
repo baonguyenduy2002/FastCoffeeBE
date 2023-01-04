@@ -69,6 +69,20 @@ app.post("/api/order/deny/:id", (req, res) => {
   });
 });
 
+app.post("/api/order/process/:id", (req, res) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Processing" WHERE Order_ID = ${req.params.id}`;
+  db.query(sqlAccept, (error, result) => {
+    if (error) console.log(error);
+  });
+});
+
+app.post("/api/order/finish/:id", (req, res) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Finished" WHERE Order_ID = ${req.params.id}`;
+  db.query(sqlAccept, (error, result) => {
+    if (error) console.log(error);
+  });
+});
+
 //-------------------------------------
 
 //-----------------menu----------------------------
