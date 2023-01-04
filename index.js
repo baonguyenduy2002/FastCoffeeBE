@@ -41,8 +41,8 @@ app.get("/api/order/get", (req, res) => {
   });
 });
 
-app.post("/api/order/get/order_item", (req, res) => {
-  const sqlSelect = `SELECT * FROM railway.order_ WHERE Order_ID = ${req.body}`;
+app.get("/api/order/get/:id", (req, res) => {
+  const sqlSelect = `SELECT * FROM railway.order_ WHERE Order_ID = ${req.params.id}`;
   db.query(sqlSelect, (error, result) => {
     res.send(result);
   });
