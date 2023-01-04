@@ -42,7 +42,7 @@ app.get("/api/order/get", (req, res) => {
 });
 
 app.get("/api/order/get/:id", (req, res) => {
-  const sqlSelect = `SELECT * FROM railway.order_ WHERE Order_ID = ${req.params.id}`;
+  const sqlSelect = `SELECT * FROM railway.order_include_item WHERE Order_ID = ${req.params.id}`;
   db.query(sqlSelect, (error, result) => {
     res.send(result);
   });
