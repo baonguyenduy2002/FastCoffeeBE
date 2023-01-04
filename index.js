@@ -62,6 +62,13 @@ app.post("/api/order/accept/:id", (req, res) => {
   });
 });
 
+app.post("/api/order/deny/:id", (req, res) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Denied" WHERE Order_ID = ${req.params.id}`;
+  db.query(sqlAccept, (error, result) => {
+    if (error) console.log(error);
+  });
+});
+
 //-------------------------------------
 
 //-----------------menu----------------------------
