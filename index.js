@@ -4,10 +4,10 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const db = mysql.createConnection({
-  host: "containers-us-west-62.railway.app",
+  host: "containers-us-west-173.railway.app",
   user: "root",
-  port: "6378",
-  password: "QQgD8tSGMXWPsUemEOW4",
+  port: "5631",
+  password: "S8fxWJbYCTCSvqRGIczh",
   database: "railway",
 });
 
