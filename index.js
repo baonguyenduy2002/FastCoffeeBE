@@ -56,7 +56,7 @@ app.get("/api/order/get/item", (req, res) => {
 });
 
 app.post("/api/order/accept/:id", (req, res) => {
-  const sqlAccept = `UPDATE SET railway.order_ Status = "Accepted" WHERE Order_ID = ${id}`;
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Accepted" WHERE Order_ID = ${req.params.id}`;
   db.query(sqlAccept, (error, result) => {
     if (error) console.log(error);
   });
