@@ -194,9 +194,9 @@ app.get("/api/customer/get/item/:id", (req, res) => {
 });
 //------------------add_order-----------------------
 app.post("/api/customer/add_order", (req, res) => {
-  const values = [req.body.DateTime, req.body.Status, req.body.Order_note, req.body.Shop_ID, req.body.Customer_ID];
+  const values = [50 ,req.body.DateTime, req.body.Status, req.body.Order_note, req.body.Shop_ID, req.body.Customer_ID];
   const sqlSelect = (
-    "INSERT INTO order_ (DateTime, Status, Order_note, Shop_ID, Customer_ID) VALUES ?"
+    "INSERT INTO order_ (Order_ID, DateTime, Status, Order_note, Shop_ID, Customer_ID) VALUES ?"
   );
   db.query(sqlSelect, [values], (error, result) => {
     if (error) console.log(error);
