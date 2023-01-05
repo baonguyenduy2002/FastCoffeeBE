@@ -90,7 +90,14 @@ app.post("/api/order/finish/:id", (req, res) => {
   });
 });
 
-//-------------------------------------
+//-----------------shop--------------------
+app.get("/api/shop/get/:id", (req, res) => {
+  const sqlAccept = `SELECT Name,Address FROM shop WHERE Shop_ID = ?`;
+  db.query(sqlAccept, [req.params.id], (error, result) => {
+    if (error) console.log(error);
+    res.send(result)
+  });
+});
 
 //-----------------menu----------------------------
 app.get("/api/item/get", (req, res) => {
