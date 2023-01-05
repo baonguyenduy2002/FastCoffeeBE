@@ -100,6 +100,17 @@ app.get("/api/shop/get/:id", (req, res) => {
   });
 });
 
+//--------------------getshopowner-------------
+
+app.get("/api/shop/getowner/:id", (req, res) => {
+  const sqlAccept = `SELECT * FROM account WHERE Acc_ID = ?`;
+  db.query(sqlAccept, [req.params.id], (error, result) => {
+    if (error) console.log(error);
+    if (result !== null) res.send(result[0]);
+    else res.send("database dead");
+  });
+});
+
 //-----------------menu----------------------------
 app.get("/api/item/get", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.item";
