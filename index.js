@@ -30,7 +30,7 @@ app.use(express.urlencoded());
 //------------------order--------------------------
 app.get("/", (req, res) => {
   res.send(`
-    <div style="font-size: 50px"> Anh Bảo báo vcl =)))</div>
+    <div style="font-size: 50px"> Anh Bảo giỏi vcl =)))</div>
     `);
 });
 
@@ -125,18 +125,15 @@ app.post("/api/item/delete", (req, res) => {
 app.post("/api/customer/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  const sqlSelect = (
+  const sqlSelect =
     "SELECT Acc_ID, Name, Address, DoB, Phone_number, Email " +
-    "FROM railway.account INNER JOIN railway.account_customer " + 
+    "FROM railway.account INNER JOIN railway.account_customer " +
     "ON railway.account.Acc_ID = railway.account_customer.Customer_ID " +
-    "WHERE railway.account.Email = ? AND railway.account.Password = ?"
-  );
+    "WHERE railway.account.Email = ? AND railway.account.Password = ?";
   db.query(sqlSelect, [email, password], (error, result) => {
     res.send(result);
   });
 });
-
-
 
 //------------IP => localhost:...--------------------------
 app.listen(PORT, () => {
