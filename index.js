@@ -175,7 +175,7 @@ app.post("/api/customer/get/order_history", (req, res) => {
   });
 });
 //------------------customer_shopList-----------------------
-app.get("/api/customer/get/shop_list/", (req, res) => {
+app.get("/api/customer/get/shop_list", (req, res) => {
   const sqlSelect = (
     "SELECT * FROM railway.shop"
   );
