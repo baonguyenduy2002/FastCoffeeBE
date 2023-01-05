@@ -163,14 +163,14 @@ app.post("/api/customer/signup", (req, res) => {
 //---------------------customer_order-----------------------
 
 //------------------customer_homepage-----------------------
-app.get("/api/customer/get/order_history/:id", (req, res) => {
+app.post("/api/customer/get/order_history", (req, res) => {
   const sqlSelect = (
     "SELECT Order_ID, DateTime, Status, Order_note, Name, Address" + 
     "FROM railway.order_ INNER JOIN railway.shop " + 
     "ON railway.order_.Shop_ID = railway.shop.Shop_ID WHERE railway.order_.Customer_ID = ?"
   );
-  db.query(sqlSelect, [req.params.id], (error, result) => {
-    res.send(result)
+  db.query(sqlSelect, [req.body.id], (error, result) => {
+    res.send(result);
   });
 });
 //------------------customer_shopList-----------------------
