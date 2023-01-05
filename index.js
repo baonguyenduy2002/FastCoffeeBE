@@ -105,8 +105,8 @@ app.get("/api/customer/get/order_history", (req, res) => {
   const id = req.body.customer_id;
   const sqlSelect = (
     "SELECT Order_ID, DateTime, Status, Order_note, Name AS Shop_name, Address" + 
-    "FROM railway.order  INNER JOIN railway.shop " + 
-    "ON railway.order.Shop_ID = railway.shop.Shop_ID WHERE railway.order.Customer_ID = ?"
+    "FROM railway.order_ INNER JOIN railway.shop " + 
+    "ON railway.order_.Shop_ID = railway.shop.Shop_ID WHERE railway.order_.Customer_ID = ?"
   );
   db.query(sqlSelect, [id], (error, result) => {
     res.send(result)
