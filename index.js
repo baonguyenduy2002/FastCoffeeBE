@@ -87,7 +87,7 @@ app.post("/api/item/delete", (req, res) => {
 });
 
 //------------------customer_account-----------------------
-app.get("/api/customer/login", (req, res) => {
+app.post("/api/customer/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const sqlSelect = (
