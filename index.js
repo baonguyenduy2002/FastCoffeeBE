@@ -109,7 +109,7 @@ app.get("/api/customer/get/order_history:" + id, (req, res) => {
   );
   db.query(sqlSelect, (error, result) => {
     res.send(result)
-  })
+  });
 });
 
 
