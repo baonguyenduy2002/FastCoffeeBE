@@ -100,6 +100,24 @@ app.post("/api/customer/login", (req, res) => {
     res.send(result);
   });
 });
+
+app.post("/api/customer/signup", (req, res) => {
+  const fullName = req.body.fullName;
+  const email = req.body.email;
+  const address = req.body.address;
+  const dob = req.body.dob;
+  const phone = req.body.phone;
+  const password = req.body.password;
+  const sqlSelect = (
+    "CALL createCustomerAccount(?,?,?,?,?,?)"
+  );
+  db.query(sqlSelect, [fullName, email, address, dob, phone, password], (error, result) => {
+    res.send(result);
+  });
+});
+
+//---------------------customer_order-----------------------
+
 //------------------customer_homepage-----------------------
 app.get("/api/customer/get/order_history/:id", (req, res) => {
   const sqlSelect = (
