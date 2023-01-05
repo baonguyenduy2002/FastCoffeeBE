@@ -122,12 +122,11 @@ app.post("/api/item/delete", (req, res) => {
 });
 
 //------------------customer_account-----------------------
-app.get("/api/customer/login/:email/:password", (req, res) => {
+app.get("/api/customer/login", (req, res) => {
   const sqlSelect = (
     "SELECT Acc_ID, Name, Address, DoB, Phone_number, Email" +
     "FROM railway.account INNER JOIN account_customer" + 
-    "ON account.Acc_ID = account_customer.Customer_ID" +
-    "WHERE account.Email = email AND account.Password = password"
+    "ON account.Acc_ID = account_customer.Customer_ID" 
   );
   db.query(sqlSelect, (error, result) => {
     res.send(result);
