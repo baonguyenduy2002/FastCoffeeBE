@@ -42,7 +42,7 @@ app.get("/api/order/get", (req, res) => {
 });
 
 app.get("/api/order/get/order_item", (req, res) => {
-  const sqlSelect = `SELECT * FROM railway.order_include_item`; //SQL Injection, coi Predefined Object để fix đi :))
+  const sqlSelect = `SELECT * FROM railway.order_include_item`;
   db.query(sqlSelect, (error, result) => {
     res.send(result);
   });
@@ -56,36 +56,36 @@ app.get("/api/order/get/item", (req, res) => {
 });
 
 app.post("/api/order/accept/:id", (req, res) => {
-  const sqlAccept = `UPDATE railway.order_ SET Status = "Accepted" WHERE Order_ID = ${req.params.id}`;
-  db.query(sqlAccept, (error, result) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Accepted" WHERE Order_ID = ?`; //SQL Injection, coi Predefined Object để fix đi :))
+  db.query(sqlAccept, [req.params.id], (error, result) => {
     if (error) console.log(error);
   });
 });
 
 app.post("/api/order/deny/:id", (req, res) => {
-  const sqlAccept = `UPDATE railway.order_ SET Status = "Denied" WHERE Order_ID = ${req.params.id}`;
-  db.query(sqlAccept, (error, result) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Denied" WHERE Order_ID = ?`; //SQL Injection, coi Predefined Object để fix đi :))
+  db.query(sqlAccept, [req.params.id], (error, result) => {
     if (error) console.log(error);
   });
 });
 
 app.post("/api/order/process/:id", (req, res) => {
-  const sqlAccept = `UPDATE railway.order_ SET Status = "Processing" WHERE Order_ID = ${req.params.id}`;
-  db.query(sqlAccept, (error, result) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Processing" WHERE Order_ID = ?`; //SQL Injection, coi Predefined Object để fix đi :))
+  db.query(sqlAccept, [req.params.id], (error, result) => {
     if (error) console.log(error);
   });
 });
 
 app.post("/api/order/ready/:id", (req, res) => {
-  const sqlAccept = `UPDATE railway.order_ SET Status = "Ready" WHERE Order_ID = ${req.params.id}`;
-  db.query(sqlAccept, (error, result) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Ready" WHERE Order_ID = ?`; //SQL Injection, coi Predefined Object để fix đi :))
+  db.query(sqlAccept, [req.params.id], (error, result) => {
     if (error) console.log(error);
   });
 });
 
 app.post("/api/order/finish/:id", (req, res) => {
-  const sqlAccept = `UPDATE railway.order_ SET Status = "Finished" WHERE Order_ID = ${req.params.id}`;
-  db.query(sqlAccept, (error, result) => {
+  const sqlAccept = `UPDATE railway.order_ SET Status = "Finished" WHERE Order_ID = ?`; //SQL Injection, coi Predefined Object để fix đi :))
+  db.query(sqlAccept, [req.params.id], (error, result) => {
     if (error) console.log(error);
   });
 });
