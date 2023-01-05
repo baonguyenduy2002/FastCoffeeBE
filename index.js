@@ -88,12 +88,15 @@ app.post("/api/item/delete", (req, res) => {
 
 //------------------customer_account-----------------------
 app.get("/api/customer/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
   const sqlSelect = (
     "SELECT Acc_ID, Name, Address, DoB, Phone_number, Email " +
     "FROM railway.account INNER JOIN railway.account_customer " + 
-    "ON railway.account.Acc_ID = railway.account_customer.Customer_ID" 
+    "ON railway.account.Acc_ID = railway.account_customer.Customer_ID " +
+    "WHERE railway.account.Email = ? AND railway.account.Password = ?"
   );
-  db.query(sqlSelect, (error, result) => {
+  db.query(sqlSelect, [email, password], (error, result) => {
     res.send(result);
   });
 });
