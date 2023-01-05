@@ -95,7 +95,9 @@ app.get("/api/shop/get/:id", (req, res) => {
   const sqlAccept = `SELECT Name,Address FROM shop WHERE Shop_ID = ?`;
   db.query(sqlAccept, [req.params.id], (error, result) => {
     if (error) console.log(error);
-    res.send(result[0])
+    if (result !== null)
+      res.send(result[0])
+    else res.send("database dead")
   });
 });
 
