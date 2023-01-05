@@ -30,7 +30,7 @@ app.use(express.urlencoded());
 //------------------order--------------------------
 app.get("/", (req, res) => {
   res.send(`
-    <div style="font-size: 50px"> Anh Bảo giỏi vcl =)))</div>
+    <div style="font-size: 50px">Hi !!! This is server for FastCoffee system</div>
     `);
 });
 
