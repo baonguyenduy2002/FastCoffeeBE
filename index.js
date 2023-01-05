@@ -90,7 +90,15 @@ app.post("/api/order/finish/:id", (req, res) => {
   });
 });
 
-//-------------------------------------
+//-----------------shop--------------------
+app.get("/api/shop/get/:id", (req, res) => {
+  const sqlAccept = `SELECT Name,Address FROM shop WHERE Shop_ID = ?`;
+  db.query(sqlAccept, [req.params.id], (error, result) => {
+    if (error) console.log(error);
+    if (result !== null) res.send(result[0]);
+    else res.send("database dead");
+  });
+});
 
 //-----------------menu----------------------------
 app.get("/api/item/get", (req, res) => {
@@ -132,6 +140,66 @@ app.post("/api/customer/login", (req, res) => {
     "WHERE railway.account.Email = ? AND railway.account.Password = ?";
   db.query(sqlSelect, [email, password], (error, result) => {
     res.send(result);
+  });
+});
+
+app.post("/api/customer/signup", (req, res) => {
+  const fullName = req.body.fullName;
+  const email = req.body.email;
+  const address = req.body.address;
+  const dob = req.body.dob;
+  const phone = req.body.phone;
+  const password = req.body.password;
+  const sqlSelect = "CALL createCustomerAccount(?,?,?,?,?,?)";
+  db.query(
+    sqlSelect,
+    [fullName, email, address, dob, phone, password],
+    (error, result) => {
+      res.send(result);
+    }
+  );
+});
+
+//---------------------customer_order-----------------------
+
+//------------------customer_homepage-----------------------
+app.post("/api/customer/get/order_history", (req, res) => {
+  const id = req.body.id;
+  const sqlSelect =
+    "SELECT Order_ID, DateTime, railway.order_.Status, Order_note, Name, Address " +
+    "FROM railway.order_ INNER JOIN railway.shop " +
+    "ON railway.order_.Shop_ID = railway.shop.Shop_ID WHERE railway.order_.Customer_ID = ?";
+  db.query(sqlSelect, [id], (error, result) => {
+    res.send(result);
+  });
+});
+//------------------customer_shopList-----------------------
+app.get("/api/customer/get/shop_list", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.shop";
+  db.query(sqlSelect, (error, result) => {
+    res.send(result);
+  });
+});
+
+app.get("/api/customer/get/item/:id", (req, res) => {
+  const sqlSelect = "SELECT * FROM railway.item WHERE railway.item.Shop_ID = ?";
+  db.query(sqlSelect, [req.params.id], (error, result) => {
+    res.send(result);
+  });
+});
+//------------------add_order-----------------------
+app.post("/api/customer/add_order", (req, res) => {
+  const values = [
+    req.body.DateTime,
+    req.body.Status,
+    req.body.Order_note,
+    req.body.Shop_ID,
+    req.body.Customer_ID,
+  ];
+  const sqlSelect =
+    "INSERT INTO order_ (DateTime, Status, Order_note, Shop_ID, Customer_ID) VALUES ?";
+  db.query(sqlSelect, [values], (error, result) => {
+    if (error) console.log(error);
   });
 });
 
