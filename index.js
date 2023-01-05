@@ -100,7 +100,17 @@ app.post("/api/customer/login", (req, res) => {
     res.send(result);
   });
 });
-
+//------------------customer_homepage-----------------------
+app.get("/api/customer/get/order_history:" + id, (req, res) => {
+  const sqlSelect = (
+    "SELECT a.Order_ID, a.DateTime, a.Status, a.Order_note, b.Name as Shop_name, b.Address" + 
+    "FROM railway.order a INNER JOIN railway.shop b" + 
+    `ON a.Shop_ID = b.Shop_ID WHERE a.Customer_ID=${id}`
+  );
+  db.query(sqlSelect, (error, result) => {
+    res.send(result)
+  })
+});
 
 
 //------------IP => localhost:...--------------------------
