@@ -233,7 +233,6 @@ app.post("/api/customer/add_order", (req, res) => {
 //------------------Employee login-------------------------
 app.post("/api/employee/login", (req, res) => {
   const email = req.body.email;
-  console.log(email)
   const password = req.body.password;
   const sqlSelect =
     "SELECT railway.account.Acc_ID, railway.account_partner_staff.Shop_ID " +
