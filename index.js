@@ -242,12 +242,10 @@ app.post("/api/employee/login", (req, res) => {
     "WHERE railway.account.Email = ? AND railway.account.Password = ?";
   db.query(sqlSelect, [email, password], (error, result) => {
     if (error) { 
-      console.log(error)
       res.status(500).send({"login": "fail"})
     }
     else {
       if (result.length > 0) {
-        console.log(result[0])
         const token = jwt.sign({ userid: result[0].Acc_ID, shopid: result[0].Shop_ID }, key)
         res.send({token})
       }
