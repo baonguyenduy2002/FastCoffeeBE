@@ -35,15 +35,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/order/get", (req, res) => {
-  const sqlSelect = "SELECT * FROM railway.order_";
-  db.query(sqlSelect, (error, result) => {
+  const shop_id = 1
+  const sqlSelect = "SELECT * FROM railway.order_ WHERE Shop_ID = ?";
+  db.query(sqlSelect, [shop_id],(error, result) => {
     res.send(result);
   });
 });
 
 app.get("/api/order/get/order_item", (req, res) => {
-  const sqlSelect = `SELECT * FROM railway.order_include_item`;
-  db.query(sqlSelect, (error, result) => {
+  const shop_id = 1
+  const sqlSelect = `SELECT * FROM railway.order_include_item a JOIN railway.order_ b ON a.Order_ID = b.Order_ID WHERE b.Shop_ID = ?`;
+  db.query(sqlSelect, [shop_id], (error, result) => {
     res.send(result);
   });
 });
