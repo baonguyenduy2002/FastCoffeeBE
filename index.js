@@ -113,30 +113,40 @@ app.get("/api/shop/getowner/:id", (req, res) => {
 
 //-----------------menu----------------------------
 app.get("/api/item/get", (req, res) => {
-  const sqlSelect = "SELECT * FROM railway.item";
-  db.query(sqlSelect, (error, result) => {
-    res.send(result);
+  // We need to set the cookie of the client, right now we just hard code shop_id = 1
+  const shop_id = 1
+  const sqlSelect = "SELECT * FROM railway.item WHERE Shop_ID = ?";
+  db.query(sqlSelect, [shop_id], (error, result) => {
+    result ?  res.send(result) : res.send([]);
   });
 });
 
-app.post("/api/item/update", (req, res) => {
-  const sqlSelect = "SELECT * FROM railway.item";
-  db.query(sqlSelect, (error, result) => {
-    res.send(result);
+app.post("/api/item/update/:id", (req, res) => {
+  // We need to set the cookie of the client, right now we just hard code shop_id = 1
+  const shop_id = 1
+  const sqlSelect1 = "UPDATE railway.item SET Name = ?, Description = ?, Price = ? WHERE Shop_ID = ? AND Item_ID = ?";
+  req.body.name
+  db.query(sqlSelect1, [req.body.name, req.body.description, req.body.price, shop_id, req.params.id], (error, result) => {
+    if (!error)
+      res.send({"update":"success"})
+    else {
+      console.log(error)
+      res.send({"update":"fail"})
+    }
   });
 });
 
 app.post("/api/item/delete", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.item";
   db.query(sqlSelect, (error, result) => {
-    res.send(result);
+    result ?  res.send(result) : res.send([]);
   });
 });
 
 app.post("/api/item/delete", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.item";
   db.query(sqlSelect, (error, result) => {
-    res.send(result);
+    result ?  res.send(result) : res.send([]);
   });
 });
 
