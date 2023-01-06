@@ -1,5 +1,7 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const mysql = require("mysql2");
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -10,6 +12,8 @@ const db = mysql.createConnection({
   password: "S8fxWJbYCTCSvqRGIczh",
   database: "railway",
 });
+
+const key = "KeyFakeDontGetIt"
 
 db.connect((err) => {
   if (err) {
@@ -24,6 +28,7 @@ const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded());
 
@@ -37,7 +42,7 @@ app.get("/", (req, res) => {
 app.get("/api/order/get", (req, res) => {
   const shop_id = 1
   const sqlSelect = "SELECT * FROM railway.order_ WHERE Shop_ID = ?";
-  db.query(sqlSelect, [shop_id],(error, result) => {
+  db.query(sqlSelect, [shop_id], (error, result) => {
     res.send(result);
   });
 });
@@ -119,7 +124,7 @@ app.get("/api/item/get", (req, res) => {
   const shop_id = 1
   const sqlSelect = "SELECT * FROM railway.item WHERE Shop_ID = ?";
   db.query(sqlSelect, [shop_id], (error, result) => {
-    result ?  res.send(result) : res.send([]);
+    result ? res.send(result) : res.send([]);
   });
 });
 
@@ -130,10 +135,10 @@ app.post("/api/item/update/:id", (req, res) => {
   req.body.name
   db.query(sqlSelect1, [req.body.name, req.body.description, req.body.price, shop_id, req.params.id], (error, result) => {
     if (!error)
-      res.send({"update":"success"})
+      res.send({ "update": "success" })
     else {
       console.log(error)
-      res.send({"update":"fail"})
+      res.send({ "update": "fail" })
     }
   });
 });
@@ -141,14 +146,14 @@ app.post("/api/item/update/:id", (req, res) => {
 app.post("/api/item/delete", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.item";
   db.query(sqlSelect, (error, result) => {
-    result ?  res.send(result) : res.send([]);
+    result ? res.send(result) : res.send([]);
   });
 });
 
 app.post("/api/item/delete", (req, res) => {
   const sqlSelect = "SELECT * FROM railway.item";
   db.query(sqlSelect, (error, result) => {
-    result ?  res.send(result) : res.send([]);
+    result ? res.send(result) : res.send([]);
   });
 });
 
@@ -224,6 +229,35 @@ app.post("/api/customer/add_order", (req, res) => {
     if (error) console.log(error);
   });
 });
+
+//------------------Employee login-------------------------
+app.post("/api/employee/login", (req, res) => {
+  const email = req.body.email;
+  console.log(email)
+  const password = req.body.password;
+  const sqlSelect =
+    "SELECT railway.account.Acc_ID, railway.account_partner_staff.Shop_ID " +
+    "FROM railway.account INNER JOIN railway.account_partner_staff " +
+    "ON railway.account.Acc_ID = railway.account_partner_staff.PartnerStaff_ID " +
+    "WHERE railway.account.Email = ? AND railway.account.Password = ?";
+  db.query(sqlSelect, [email, password], (error, result) => {
+    if (error) { 
+      console.log(error)
+      res.status(500).send({"login": "fail"})
+    }
+    else {
+      if (result.length > 0) {
+        console.log(result[0])
+        const token = jwt.sign({ userid: result[0].Acc_ID, shopid: result[0].Shop_ID }, key)
+        res.send({token})
+      }
+      else {
+        res.send({"login":"fail"})
+      }
+    }
+  });
+});
+
 
 //------------IP => localhost:...--------------------------
 app.listen(PORT, () => {
