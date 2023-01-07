@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   database: "railway",
 });
 
-const key = "KeyFakeDontGetIt"
+const key = "K3y_F4k3_D0nt_63t_1t"
 
 db.connect((err) => {
   if (err) {
@@ -241,7 +241,7 @@ app.post("/api/employee/login", (req, res) => {
     "WHERE railway.account.Email = ? AND railway.account.Password = ?";
   db.query(sqlSelect, [email, password], (error, result) => {
     if (error) { 
-      res.status(500).send({"login": "fail"})
+      res.status(401).send({"login": "fail"})
     }
     else {
       if (result.length > 0) {
@@ -249,7 +249,7 @@ app.post("/api/employee/login", (req, res) => {
         res.send({token})
       }
       else {
-        res.send({"login":"fail"})
+        res.status(401).send({"login":"fail"})
       }
     }
   });
