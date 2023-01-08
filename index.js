@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const authEmployee = require("./middleware/auth").authEmployee
 
 const db = mysql.createConnection({
   host: "containers-us-west-173.railway.app",
@@ -26,7 +27,13 @@ db.connect((err) => {
 const app = express();
 const PORT = 3001;
 
-app.use(cors());
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsConfig));
+app.options('*', cors(corsConfig))
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -119,20 +126,19 @@ app.get("/api/shop/getowner/:id", (req, res) => {
 });
 
 //-----------------menu----------------------------
-app.get("/api/item/get", (req, res) => {
+app.get("/api/item/get", authEmployee, (req, res) => {
   // We need to set the cookie of the client, right now we just hard code shop_id = 1
-  const shop_id = 1
+  const shop_id = req.shopid
   const sqlSelect = "SELECT * FROM railway.item WHERE Shop_ID = ?";
   db.query(sqlSelect, [shop_id], (error, result) => {
     result ? res.send(result) : res.send([]);
   });
 });
 
-app.post("/api/item/update/:id", (req, res) => {
+app.post("/api/item/update/:id", authEmployee, (req, res) => {
   // We need to set the cookie of the client, right now we just hard code shop_id = 1
-  const shop_id = 1
+  const shop_id = req.shopid
   const sqlSelect1 = "UPDATE railway.item SET Name = ?, Description = ?, Price = ? WHERE Shop_ID = ? AND Item_ID = ?";
-  req.body.name
   db.query(sqlSelect1, [req.body.name, req.body.description, req.body.price, shop_id, req.params.id], (error, result) => {
     if (!error)
       res.send({ "update": "success" })
@@ -143,17 +149,16 @@ app.post("/api/item/update/:id", (req, res) => {
   });
 });
 
-app.post("/api/item/delete", (req, res) => {
-  const sqlSelect = "SELECT * FROM railway.item";
-  db.query(sqlSelect, (error, result) => {
-    result ? res.send(result) : res.send([]);
-  });
-});
-
-app.post("/api/item/delete", (req, res) => {
-  const sqlSelect = "SELECT * FROM railway.item";
-  db.query(sqlSelect, (error, result) => {
-    result ? res.send(result) : res.send([]);
+app.post("/api/item/delete", authEmployee, (req, res) => {
+  const shop_id = req.shopid
+  const sqlSelect = "DELETE FROM railway.item where Item_ID =? AND Shop_ID = ?";
+  db.query(sqlSelect, [req.body.item_id, shop_id], (error, result) => {
+    if (error) { 
+      res.status(401).send({"delete": "fail"})
+    }
+    else {
+      res.status(200).send({"delete": "success"})
+    }
   });
 });
 
@@ -254,7 +259,6 @@ app.post("/api/employee/login", (req, res) => {
     }
   });
 });
-
 
 //------------IP => localhost:...--------------------------
 app.listen(PORT, () => {
